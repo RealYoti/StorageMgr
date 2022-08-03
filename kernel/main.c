@@ -797,7 +797,11 @@ void patch_appmgr() {
 	if (taiGetModuleInfoForKernel(KERNEL_PID, "SceAppMgr", &sceappmgr_modinfo) >= 0) {
 		uint32_t nop_nop_opcode = 0xBF00BF00;
 		switch (sceappmgr_modinfo.module_nid) {
+			case 0x94CEFE4B: // 3.55 retail
+			case 0xDFBC288C: // 3.57 retail
 			case 0xDBB29DB7: // 3.60 retail/testkit/devkit
+			case 0xB5F8EA7C: // 3.61 retail
+			case 0x23B967C5: // 3.63 retail
 			case 0x1C9879D6: // 3.65 retail/testkit/devkit
 				taiInjectDataForKernel(KERNEL_PID, sceappmgr_modinfo.modid, 0, 0xB338, &nop_nop_opcode, 4);
 				taiInjectDataForKernel(KERNEL_PID, sceappmgr_modinfo.modid, 0, 0xB368, &nop_nop_opcode, 2);
@@ -841,10 +845,10 @@ int my_write(uint8_t *dev, void *buf, int sector, int size) {
 
 int my_mediaid(uint8_t *dev) {
 	int ret = TAI_CONTINUE(int, hook_mediaid, dev);
- 	if (dev[36] == 1) {
+	if (dev[36] == 1) {
 		memset(dev + 20, 0xFF, 16);
 		memset(sdstor_mediaid, 0xFF, 16);
- 		return magic;
+		return magic;
 	}
 	return ret;
 }
@@ -1033,9 +1037,15 @@ int module_start(SceSize args, void *argp) {
 	
 	// Get important function
 	switch (sceiofilemgr_modinfo.module_nid) {
+		case 0x7A1DBDE6: // 3.55 retail
+		case 0xEF58597E: // 3.57 retail
 		case 0x9642948C: // 3.60 retail/testkit/devkit
 			module_get_offset(KERNEL_PID, sceiofilemgr_modinfo.modid, 0, 0x138C1, (uintptr_t *)&sceIoFindMountPoint);
 			break;
+		case 0xE923F19C: // 3.61 retail
+			module_get_offset(KERNEL_PID, sceiofilemgr_modinfo.modid, 0, 0x138D5, (uintptr_t *)&sceIoFindMountPoint);
+			break;
+		case 0x5FC2B87D: // 3.63 retail
 		case 0xA96ACE9D: // 3.65 retail/testkit/devkit
 		case 0x3347A95F: // 3.67 retail/testkit/devkit
 		case 0x90DA33DE: // 3.68 retail/testkit/devkit
