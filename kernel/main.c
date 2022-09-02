@@ -204,13 +204,17 @@ int readLine(int lineId, char *lineBuffer) {
 	int configFileSize = getFileSize(default_config_path);
 	if (configFileSize < 0) {
 		LOG("No config file found.\n");
-		return -1;
+		entriesNumber = 3;
+		configFileSize = 25;
+		configBuffer[27] = "INT=imc0\nMCD=uma0\nGCD=ux0";
+		//return -1;
+	} else {
+		char configBuffer[configFileSize];
+		SceUID fd = ksceIoOpen(default_config_path, SCE_O_RDONLY, 0);
+		if (fd < 0)
+			return fd;
+		ksceIoRead(fd, configBuffer, configFileSize);
 	}
-	char configBuffer[configFileSize];
-	SceUID fd = ksceIoOpen(default_config_path, SCE_O_RDONLY, 0);
-	if (fd < 0)
-		return fd;
-	ksceIoRead(fd, configBuffer, configFileSize);
 	int padding = 0, n = 0;
 	for (int currentLine=0; currentLine<entriesNumber; currentLine++) {
 		if (currentLine == lineId) {
