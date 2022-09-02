@@ -5,6 +5,7 @@ Kernel plugin that automatically mounts/redirects any storage device to any moun
 
 ## Credits
 * CelesteBlue for the rewriting, fixes, tests (I spent about 40 hours on this project)
+* Yoti aka RealYoti for adding support of new (and some old) firmwares
 * gamesd by motoharu and xyz
 * usbmc by yifanlu and TheFloW
 * VitaShell kernel plugin by TheFloW
@@ -19,7 +20,7 @@ StorageMgrKernel is a kernel plugin that automatically mounts/redirects any stor
 - Fixed sporadic wakeups when using SD2VITA thanks to xyz
 - It works with taiHEN under henkaku, h-encore, h-encore-2, Trinity, QuickHEN-PSVita or enso
 - When SD2VITA is removed or not working and configured to be redirected to ux0, memcard/internal is by default mounted to ux0
-- Compatible with PSVita FWs 3.60, 3.65, 3.67, 3.68, 3.69, 3.70, 3.71, 3.72 and 3.73
+- Compatible with PS Vita FWs 3.55, 3.57, 3.60, 3.61, 3.63, 3.65, 3.67, 3.68, 3.69, 3.70, 3.71, 3.72, 3.73 and 3.74
 - Proved working with 2TB exFAT HDD on PSTV (need to be formatted with <=64kB clusters)
 
 ### Future improvements (TO DO)
@@ -40,7 +41,7 @@ StorageMgrKernel is a kernel plugin that automatically mounts/redirects any stor
 ## Usage
 - IMPORTANT: IF YOU HAVE ISSUES WITH USB MOUNTING ON PSTV, IT IS RECOMMENDED TO INSTALL ENSO (FW 3.60 or 3.65).
 - NOTE: for using USB mass with h-encore and h-encore2, you have to boot PSTV, plug out USB mass, plug in USB mass then launch h-encore. It is annoying to do, so it is recommended to downgrade to FW 3.60 and install enso.
-- NOTE: for big storage capacity devices, like 2TB HDD on PSTV, it need to be formatted as exFAT 64kB clusters or smaller because 128kB clusters and more are not supported by PSVita OS.
+- NOTE: for big storage capacity devices, like 2TB HDD on PSTV, it need to be formatted as exFAT 64kB clusters or smaller because 128kB clusters and more are not supported by PS Vita OS.
 - NOTE: For mounting a device as ux0:, this device must have been already mounted as ux0: using VitaShell at least once to have necessary files on it.
 
 0. If it exists, remove gamesd.skprx and usbmc.skprx or any other storage plugin.
@@ -50,7 +51,7 @@ StorageMgrKernel is a kernel plugin that automatically mounts/redirects any stor
 4. If it exists, remove ux0:tai/config.txt.
 5. In ur0:tai/config.txt after *KERNEL create a new line and write: ur0:tai/storagemgr.skprx.
 6. Configure ur0:tai/storage_config.txt to what you want.
-7. Reboot PSVita.
+7. Reboot PS Vita.
 
 ## Example
 ![example_config](https://user-images.githubusercontent.com/20444249/37112629-46eb83dc-2243-11e8-8aae-c6ff36478c0a.jpg)
@@ -63,9 +64,9 @@ On each line you have to write following this structure:
 
 The available devices are:
 - MCD : official SONY memory card
-- INT : internal memory 1GB (on all PSVita SLIM and PSTV)
+- INT : internal memory 1GB (on all PS Vita SLIM and PSTV)
 - GCD : microSD inserted into SD2VITA (also called gamecard2sd)
-- UMA : USB mass (for PSTV) OR microSD inserted into PSVSD (for PSVita 3G)
+- UMA : USB mass (for PSTV) OR microSD inserted into PSVSD (for PS Vita 3G)
 
 The available mount points are:
 - ux0
